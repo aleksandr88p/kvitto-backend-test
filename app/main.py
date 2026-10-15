@@ -6,6 +6,7 @@ from sqlalchemy import select
 
 from app import models
 from app.core.database import Base, SessionLocal, engine
+from app.routers import payments, tariffs, webhooks
 
 INITIAL_TARIFFS = (
     ("basic", 990000),
@@ -43,3 +44,6 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(tariffs.router)
+app.include_router(payments.router)
+app.include_router(webhooks.router)
